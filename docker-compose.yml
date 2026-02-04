@@ -1,0 +1,23 @@
+networks:
+  app-network:
+    external: true
+  proxy:
+    external: true
+
+services:
+  habitify:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: habitify
+    restart: unless-stopped
+    volumes:
+      - .:/var/www
+      - ~/.gitconfig:/root/.gitconfig:ro
+      - ~/.git-credentials:/root/.git-credentials:ro
+      - ~/.ssh:/root/.ssh:ro
+    ports:
+      - "0:8000"
+    networks:
+      - app-network
+      - proxy
